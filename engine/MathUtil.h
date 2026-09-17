@@ -11,6 +11,7 @@ struct Point2D {
     Point2D(float x = 0, float y = 0) : x(x), y(y) {}
     double Distance(const Point2D &other) const {
         // TODO: write this code
+        return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
         return 0;
     }
     Point2D operator+(const Point2D &other) const {
