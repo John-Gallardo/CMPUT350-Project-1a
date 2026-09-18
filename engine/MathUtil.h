@@ -63,13 +63,19 @@ struct Point2D {
     }
     Point2D &operator/=(const int &scalar) {
         // Vector and scalar division
-        // NOTE: are we supposed to check for a division by 0?
-        x /= scalar;
-        y /= scalar;
+        if (scalar == 0) {
+            std::cerr << "Warning: scalar division by 0. x & y set to 0";
+            x = 0;
+            y = 0;
+        } else {
+            x /= scalar;
+            y /= scalar;
+        }
+
         return *this;
     }
     float operator*(const Point2D &other) const {
-        // NOTE: I assume this is a dot product since it returns a float
+        // Dot product
         return x * other.x + y * other.y;
     }
     float Dot(Point2D b) const {
@@ -87,19 +93,23 @@ struct Point2D {
     void Normalize() {
         // Normalize by dividing each component (x, y) by length
         float length = std::sqrt(x*x + y*y);
-        x /= length;
-        y /= length;
+        if (length == 0) {
+            std::cerr << "Warning: length is 0";
+        } else {
+            x /= length;
+            y /= length;
+        }
     }
 };
 
 static std::ostream &operator<<(std::ostream &os, const Point2D &p) {
-    // TODO: write this code
+    // Format is "(x, y)"
+    std::cout << '(' << p.x << ", " << p.y << ')';
     return os;
 }
 
 static Point2D operator*(float number, const Point2D &rhs) {
-    // TODO: write this code
-    return rhs;
+    return {number * rhs.x, number * rhs.y};
 }
 
 struct Line {
