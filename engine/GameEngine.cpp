@@ -1,10 +1,13 @@
 #include "GameEngine.h"
+#include <memory>
+#include <vector>
 
 /// @brief
 namespace CMPUT350 {
 #include "FontData.h"
 
-GameEngine::GameEngine(unsigned int width, unsigned int height, const std::string& name) {
+GameEngine::GameEngine(unsigned int width, unsigned int height, const std::string& name)
+: mWindow{std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name)} {
     // Sample font loading code
     //	if (!mFont->openFromMemory(&_font, _font_len))
     //	{
@@ -14,10 +17,17 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
 
 GameEngine::~GameEngine() {
     // Cleanup resources
-    // mWindow->close();
+    mWindow->close();
 }
 
-void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {}
+/**
+ * @brief Adds a game object to a temporary list, mCreatedObjects, to be added to the next frame
+ * @param gameObject The game object we want to add in the next frame.
+ */
+void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {
+    // NOTE: not sure if this should have a std::move() or not
+    mCreatedObjects.push_back(gameObject);
+}
 
 /**
  * @method Run
@@ -29,6 +39,9 @@ void GameEngine::Run() {
     while (true)  // window is open
     {
         // 0. Remove any objects that are now dead
+        // Reference: https://en.cppreference.com/cpp/container/vector/erase2
+        auto isDead = [](const auto &gameObject) {return gameObject->IsAlive();};
+        std::erase_if(mGameObjects, isDead);
 
         // 1. Activate and initialize any objects added during the last frame
 
