@@ -1,4 +1,5 @@
 #include "GameEngine.h"
+#include "CollisionObject.h"
 #include <memory>
 #include <vector>
 
@@ -8,6 +9,7 @@ namespace CMPUT350 {
 
 GameEngine::GameEngine(unsigned int width, unsigned int height, const std::string& name)
 : mWindow{std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name)} {
+    mWindow->setFramerateLimit(30);
     // Sample font loading code
     //	if (!mFont->openFromMemory(&_font, _font_len))
     //	{
@@ -44,14 +46,51 @@ void GameEngine::Run() {
         std::erase_if(mGameObjects, isDead);
 
         // 1. Activate and initialize any objects added during the last frame
+        for (const auto &gameObject : mCreatedObjects) {
+            gameObject->Initialize(&mGameContext);
+            mGameObjects.push_back(gameObject);
+        }
+        mCreatedObjects.clear();
 
         // 2. Process events
+        // Reference: CMPUT350 Lab 2 Exercise's processInputs()
+        for (auto event{mWindow->pollEvent()}; event.has_value(); event = mWindow->pollEvent()) {
+            if (event->is<sf::Event::Closed>()) {
+                mWindow->close();
+                return;
+            }
+        }
 
         // 3. Update game objects
+        for (const auto &gameObject : mGameObjects) {
+            gameObject->Update(&mGameContext);
+        }
 
         // 4. Process collision events
 
+        // grab all collision objects
+        std::vector<std::shared_ptr<CollisionObject>> collisionObjects{};
+        for (const auto &gameObject : mGameObjects) {
+            std::shared_ptr<CollisionObject> collisionObject{std::dynamic_pointer_cast<CollisionObject>(gameObject)};
+            // Check if is a collision object
+            if (collisionObject == nullptr) 
+                continue;
+            collisionObjects.push_back(collisionObject);
+        }
+
+        // check for collisions with each other with a double loop
+        for (size_t i{0}; i < collisionObjects.size(); i++) {
+            auto collisionObject{collisionObjects[i]};
+            for (size_t j{i+1}; j < collisionObjects.size(); j++) {
+                auto otherObject{collisionObjects[j]};
+                collisionObject->CollisionEnter(otherObject);
+            }
+        }
+
         // 5. Late updates
+        for (const auto &gameObject : mGameObjects) {
+            gameObject->LateUpdate(&mGameContext);
+        }
 
         // Clear window
 

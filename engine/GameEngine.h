@@ -9,8 +9,10 @@ class GameEngine;
 #include "EngineView.h"
 #include "GameObject.h"
 #include "MathUtil.h"
+#include "GameContext.h"
 #include <SFML/Graphics.hpp>
 #include <memory>  // for std::shared_ptr
+#include <vector>
 
 namespace CMPUT350 {
 
@@ -35,6 +37,8 @@ private:
     //	std::shared_ptr<sf::Font> mFont;
     std::vector<std::shared_ptr<GameObject>> mCreatedObjects{};  // waiting to be added
     std::vector<std::shared_ptr<GameObject>> mGameObjects{};    // already in
+    // TODO: this should be initialized properly
+    CMPUT350::GameContext mGameContext{};  
 };
 
 }  // namespace CMPUT350
