@@ -1,6 +1,7 @@
 #ifndef MATHUTIL_H
 #define MATHUTIL_H
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 
@@ -121,7 +122,7 @@ struct Line {
     Line(Point2D p1 = {0, 0}, Point2D p2 = {0, 0}) : p1(p1), p2(p2) {}
     Line(float x1, float y1, float x2, float y2) : p1(x1, y1), p2(x2, y2) {}
 
-    float Length() const { return static_cast<float> p1.Distance(p2); }
+    float Length() const { return static_cast<float>(p1.Distance(p2)); }
 
     Point2D ClosestPoint(const Point2D& p) const {
         Point2D d = p2 - p1;
@@ -180,7 +181,7 @@ struct Rect {
     float width, height;
 
     Rect(float left, float top, float width, float height)
-        : topLeft(Point2D(top, left)), width(width), height(height) {}
+        : topLeft(Point2D(left, top)), width(width), height(height) {}
 
     Rect(Point2D tl = {0, 0}, int w = 0, int h = 0) : topLeft(tl), width(w), height(h) {}
 
@@ -269,7 +270,6 @@ struct Rect {
     bool IsInside(const Point2D& p) const {
         return p.x >= topLeft.x && p.x <= topLeft.x + width && p.y >= topLeft.y &&
                p.y <= topLeft.y + height;
-        return false;
     }
 };
 
