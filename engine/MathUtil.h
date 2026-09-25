@@ -255,6 +255,7 @@ struct Rect {
     }
 
     void Inset(int inset) {
+        // shrink the rect byt given inset value
         topLeft.x += inset;
         topLeft.y += inset;
         width -= 2 * inset;
@@ -268,6 +269,7 @@ struct Rect {
     }
 
     bool IsInside(const Point2D& p) const {
+        // check if the point is inside the Rect
         return p.x >= topLeft.x && p.x <= topLeft.x + width && p.y >= topLeft.y &&
                p.y <= topLeft.y + height;
     }
