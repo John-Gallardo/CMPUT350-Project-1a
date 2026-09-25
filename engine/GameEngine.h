@@ -34,10 +34,11 @@ public:
 
 private:
     std::shared_ptr<sf::RenderWindow> mWindow;
-    //	std::shared_ptr<sf::Font> mFont;
+    std::shared_ptr<sf::Font> mFont;
     std::vector<std::shared_ptr<GameObject>> mCreatedObjects{};  // waiting to be added
-    std::vector<std::shared_ptr<GameObject>> mGameObjects{};    // already in
-    // TODO: this should be initialized properly
+    std::vector<std::shared_ptr<GameObject>> mGameObjects{};     // already in
+    DrawContext *mScreenContext{};
+    // NOTE: not sure if this even needs to be a unique_ptr or a shared_ptr
     CMPUT350::GameContext mGameContext{};  
 };
 

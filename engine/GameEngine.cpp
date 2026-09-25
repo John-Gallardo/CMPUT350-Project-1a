@@ -1,5 +1,7 @@
 #include "GameEngine.h"
 #include "CollisionObject.h"
+#include "DrawContext.h"
+#include <SFML/Graphics.hpp>
 #include <memory>
 #include <vector>
 
@@ -15,6 +17,16 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
     //	{
     //		fprintf(stderr, "WARNING: Font did not load.\n");
     //	}
+    if (!mFont->openFromMemory(&_font, _font_len)) {
+        std::cerr << "WARNING: Font did not load.\n";
+    }
+
+    /*
+    // NOTE: we need the font for these two so they're initialized here
+    mScreenContext = new DrawContext(mWindow, mFont);
+    mGameContext.mEngineView = this;
+    mGameContext.ScreenContext = mScreenContext;
+    */
 }
 
 GameEngine::~GameEngine() {
