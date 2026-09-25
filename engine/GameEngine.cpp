@@ -17,16 +17,17 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
     //	{
     //		fprintf(stderr, "WARNING: Font did not load.\n");
     //	}
+    // TODO: font loading doesn't work locally, I get a bunch of undefined reference errors
+    /*
     if (!mFont->openFromMemory(&_font, _font_len)) {
         std::cerr << "WARNING: Font did not load.\n";
     }
+    */
 
-    /*
     // NOTE: we need the font for these two so they're initialized here
     mScreenContext = new DrawContext(mWindow, mFont);
     mGameContext.mEngineView = this;
     mGameContext.ScreenContext = mScreenContext;
-    */
 }
 
 GameEngine::~GameEngine() {
@@ -79,7 +80,6 @@ void GameEngine::Run() {
         }
 
         // 4. Process collision events
-
         // grab all collision objects
         std::vector<std::shared_ptr<CollisionObject>> collisionObjects{};
         for (const auto &gameObject : mGameObjects) {
@@ -105,12 +105,30 @@ void GameEngine::Run() {
         }
 
         // Clear window
+        mWindow->clear();
+
+        // grab all graphics objects for rendering
+        std::vector<std::shared_ptr<GraphicsObject>> graphicsObjects{};
+        for (const auto &gameObject : mGameObjects) {
+            std::shared_ptr<GraphicsObject> graphicsObject{std::dynamic_pointer_cast<GraphicsObject>(gameObject)};
+            if (graphicsObject == nullptr)
+                continue;
+            graphicsObjects.push_back(graphicsObject);
+        }
 
         // 6. Render background
+        for (const auto &graphicsObject : graphicsObjects) {
+            graphicsObject->RenderBackground(&mGameContext);
+        }
+    
 
         // 7. Render foreground
+        for (const auto &graphicsObject : graphicsObjects) {
+            graphicsObject->RenderForeground(&mGameContext);
+        }
 
         // Actually render to window
+        mWindow->display();
     }
 }
 
