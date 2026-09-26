@@ -49,7 +49,7 @@ void GameEngine::Run() {
     {
         // 0. Remove any objects that are now dead
         // Reference: https://en.cppreference.com/cpp/container/vector/erase2
-        auto isDead = [](const auto &gameObject) {return gameObject->IsAlive();};
+        auto isDead = [](const auto &gameObject) {return !gameObject->IsAlive();};
         std::erase_if(mGameObjects, isDead);
 
         // 1. Activate and initialize any objects added during the last frame
