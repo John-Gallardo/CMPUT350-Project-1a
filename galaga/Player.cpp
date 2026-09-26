@@ -2,13 +2,20 @@
 #include "Player.h"
 #include "Bullet.h"
 
+/**
+ * @brief Constructor, only sets player location to loc
+ */
 Player::Player(CMPUT350::Point2D loc)
+: mLocation{loc}
 {
-    // TODO: Update code
 }
 
+/**
+ * @brief Initializes other member variables of the player
+ */
 void Player::Initialize(CMPUT350::GameContext* context)
 {
+    mIsAlive = true;
 }
 
 void Player::Update(CMPUT350::GameContext* context)
@@ -35,14 +42,19 @@ void Player::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& ob
 {
 }
 
+/**
+ * @brief Kills the player
+ */
 void Player::Kill()
-{
+{   mIsAlive = false;
 }
 
+/**
+ * @brief Returns true if the player is alive, false if not
+ */
 bool Player::IsAlive() const
 {
-    // TODO: Update code
-    return true;
+    return mIsAlive;
 }
 
 const CMPUT350::Rect& Player::GetBounds()

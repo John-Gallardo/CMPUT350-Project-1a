@@ -30,5 +30,7 @@ private:
     CMPUT350::Point2D mHeading{};
     bool mPlayer{};
     bool mIsAlive{};
+    CMPUT350::Rect mBoundingBox{};
+    CMPUT350::Line mBulletRender{};  // we render the bullet as a line, as per the spec
 };
 #endif // BULLET_H
