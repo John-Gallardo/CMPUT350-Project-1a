@@ -3,8 +3,7 @@
 
 #include "CollisionObject.h"
 
-class Player : public CMPUT350::CollisionObject
-{
+class Player : public CMPUT350::CollisionObject {
 public:
     Player(CMPUT350::Point2D loc);
 
@@ -20,13 +19,16 @@ public:
     void RenderBackground(CMPUT350::GameContext* context) override;
     void RenderForeground(CMPUT350::GameContext* context) override;
 
-
     // Collision Object Functions
     void CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) override;
     const CMPUT350::Rect& GetBounds() override;
+
 private:
     CMPUT350::Point2D mLocation{};
     bool mIsAlive{};
+    float mHalfSize{20.f};
+    std::weak_ptr<Bullet> mBullet1{};
+    std::weak_ptr<Bullet> mBullet2{};
 };
 
 #endif

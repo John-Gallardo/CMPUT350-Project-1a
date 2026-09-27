@@ -18,7 +18,15 @@ void Player::Update(CMPUT350::GameContext* context) {}
 
 void Player::LateUpdate(CMPUT350::GameContext* context) {}
 
-bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key) { return false; }
+bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key) {
+    const float width = static_cast<float>(context->ScreenContext->GetWindowWidth());
+    if (key == 'a' || key == 'A') {
+        mLocation.x -= 15.f;
+        if (mLocation.x < mHalfSize) mLocation.x = mHalfSize;
+        return true;
+    }
+    return false;
+}
 
 void Player::RenderBackground(CMPUT350::GameContext* context) {}
 
