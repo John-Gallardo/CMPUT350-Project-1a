@@ -15,17 +15,6 @@ namespace CMPUT350 {
 GameEngine::GameEngine(unsigned int width, unsigned int height, const std::string& name)
     : mWindow{std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name)} {
     mWindow->setFramerateLimit(30);
-    // Sample font loading code
-    //	if (!mFont->openFromMemory(&_font, _font_len))
-    //	{
-    //		fprintf(stderr, "WARNING: Font did not load.\n");
-    //	}
-    // TODO: font loading doesn't work locally, I get a bunch of undefined reference errors
-    /*
-    if (!mFont->openFromMemory(&_font, _font_len)) {
-        std::cerr << "WARNING: Font did not load.\n";
-    }
-    */
     mFont = std::make_shared<sf::Font>();
     if (!mFont->openFromMemory(_font, _font_len)) {
         std::cerr << "WARNING: Font did not load.\n";
