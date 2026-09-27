@@ -1,16 +1,19 @@
 #include "GameEngine.h"
+
+#include <iostream>
+#include <memory>
+#include <vector>
+
 #include "CollisionObject.h"
 #include "DrawContext.h"
 #include <SFML/Graphics.hpp>
-#include <memory>
-#include <vector>
 
 /// @brief
 namespace CMPUT350 {
 #include "FontData.h"
 
 GameEngine::GameEngine(unsigned int width, unsigned int height, const std::string& name)
-: mWindow{std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name)} {
+    : mWindow{std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name)} {
     mWindow->setFramerateLimit(30);
     // Sample font loading code
     //	if (!mFont->openFromMemory(&_font, _font_len))
@@ -23,6 +26,10 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
         std::cerr << "WARNING: Font did not load.\n";
     }
     */
+    mFont = std::make_shared<sf::Font>();
+    if (!mFont->openFromMemory(_font, _font_len)) {
+        std::cerr << "WARNING: Font did not load.\n";
+    }
 
     // NOTE: we need the font for these two so they're initialized here
     mScreenContext = new DrawContext(mWindow, mFont);
@@ -32,6 +39,7 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
 
 GameEngine::~GameEngine() {
     // Cleanup resources
+    delete mScreenContext;
     mWindow->close();
 }
 
@@ -55,11 +63,11 @@ void GameEngine::Run() {
     {
         // 0. Remove any objects that are now dead
         // Reference: https://en.cppreference.com/cpp/container/vector/erase2
-        auto isDead = [](const auto &gameObject) {return gameObject->IsAlive();};
+        auto isDead = [](const auto& gameObject) { return !gameObject->IsAlive(); };
         std::erase_if(mGameObjects, isDead);
 
         // 1. Activate and initialize any objects added during the last frame
-        for (const auto &gameObject : mCreatedObjects) {
+        for (const auto& gameObject : mCreatedObjects) {
             gameObject->Initialize(&mGameContext);
             mGameObjects.push_back(gameObject);
         }
@@ -75,32 +83,33 @@ void GameEngine::Run() {
         }
 
         // 3. Update game objects
-        for (const auto &gameObject : mGameObjects) {
+        for (const auto& gameObject : mGameObjects) {
             gameObject->Update(&mGameContext);
         }
 
         // 4. Process collision events
         // grab all collision objects
         std::vector<std::shared_ptr<CollisionObject>> collisionObjects{};
-        for (const auto &gameObject : mGameObjects) {
-            std::shared_ptr<CollisionObject> collisionObject{std::dynamic_pointer_cast<CollisionObject>(gameObject)};
+        for (const auto& gameObject : mGameObjects) {
+            std::shared_ptr<CollisionObject> collisionObject{
+                std::dynamic_pointer_cast<CollisionObject>(gameObject)};
             // Check if is a collision object
-            if (collisionObject == nullptr) 
-                continue;
+            if (collisionObject == nullptr) continue;
             collisionObjects.push_back(collisionObject);
         }
 
         // check for collisions with each other with a double loop
         for (size_t i{0}; i < collisionObjects.size(); i++) {
             auto collisionObject{collisionObjects[i]};
-            for (size_t j{i+1}; j < collisionObjects.size(); j++) {
+            for (size_t j{i + 1}; j < collisionObjects.size(); j++) {
                 auto otherObject{collisionObjects[j]};
                 collisionObject->CollisionEnter(otherObject);
+                otherObject->CollisionEnter(collisionObject);  // check both ways
             }
         }
 
         // 5. Late updates
-        for (const auto &gameObject : mGameObjects) {
+        for (const auto& gameObject : mGameObjects) {
             gameObject->LateUpdate(&mGameContext);
         }
 
@@ -109,21 +118,21 @@ void GameEngine::Run() {
 
         // grab all graphics objects for rendering
         std::vector<std::shared_ptr<GraphicsObject>> graphicsObjects{};
-        for (const auto &gameObject : mGameObjects) {
-            std::shared_ptr<GraphicsObject> graphicsObject{std::dynamic_pointer_cast<GraphicsObject>(gameObject)};
-            if (graphicsObject == nullptr)
-                continue;
+        for (const auto& gameObject : mGameObjects) {
+            // Check if is a graphics object
+            std::shared_ptr<GraphicsObject> graphicsObject{
+                std::dynamic_pointer_cast<GraphicsObject>(gameObject)};
+            if (graphicsObject == nullptr) continue;
             graphicsObjects.push_back(graphicsObject);
         }
 
         // 6. Render background
-        for (const auto &graphicsObject : graphicsObjects) {
+        for (const auto& graphicsObject : graphicsObjects) {
             graphicsObject->RenderBackground(&mGameContext);
         }
-    
 
         // 7. Render foreground
-        for (const auto &graphicsObject : graphicsObjects) {
+        for (const auto& graphicsObject : graphicsObjects) {
             graphicsObject->RenderForeground(&mGameContext);
         }
 

@@ -1,64 +1,42 @@
-#include <cassert>
 #include "Player.h"
+
+#include <cassert>
+
 #include "Bullet.h"
 
 /**
  * @brief Constructor, only sets player location to loc
  */
-Player::Player(CMPUT350::Point2D loc)
-: mLocation{loc}
-{
-}
+Player::Player(CMPUT350::Point2D loc) : mLocation{loc} {}
 
 /**
  * @brief Initializes other member variables of the player
  */
-void Player::Initialize(CMPUT350::GameContext* context)
-{
-    mIsAlive = true;
-}
+void Player::Initialize(CMPUT350::GameContext* context) { mIsAlive = true; }
 
-void Player::Update(CMPUT350::GameContext* context)
-{
-}
+void Player::Update(CMPUT350::GameContext* context) {}
 
-void Player::LateUpdate(CMPUT350::GameContext* context)
-{
-}
+void Player::LateUpdate(CMPUT350::GameContext* context) {}
 
-bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key)
-{
-}
+bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key) { return false; }
 
-void Player::RenderBackground(CMPUT350::GameContext* context)
-{
-}
+void Player::RenderBackground(CMPUT350::GameContext* context) {}
 
-void Player::RenderForeground(CMPUT350::GameContext* context)
-{
-}
+void Player::RenderForeground(CMPUT350::GameContext* context) {}
 
-void Player::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj)
-{
-}
+void Player::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) {}
 
 /**
  * @brief Kills the player
  */
-void Player::Kill()
-{   mIsAlive = false;
-}
+void Player::Kill() { mIsAlive = false; }
 
 /**
  * @brief Returns true if the player is alive, false if not
  */
-bool Player::IsAlive() const
-{
-    return mIsAlive;
-}
+bool Player::IsAlive() const { return mIsAlive; }
 
-const CMPUT350::Rect& Player::GetBounds()
-{
+const CMPUT350::Rect& Player::GetBounds() {
     // TODO: Update code
     static CMPUT350::Rect sBounds(0, 0, 0, 0);
     return sBounds;
