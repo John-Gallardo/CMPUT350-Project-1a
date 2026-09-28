@@ -25,6 +25,11 @@ public:
     // Collision Object Functions
     void CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) override;
     const CMPUT350::Rect& GetBounds() override;
+private:
+    CMPUT350::Point2D mLocation{};
+    bool mIsAlive{};
+    CMPUT350::Rect mEnemyRender{};  // enemy is rendered as a square
+    CMPUT350::Rect mBoundingBox{};
 };
 
 

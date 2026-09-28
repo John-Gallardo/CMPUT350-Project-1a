@@ -2,6 +2,9 @@
 #define PLAYER_H
 
 #include "CollisionObject.h"
+#include <memory>
+#include <vector>
+class Bullet;  // forward declaration for our member variable
 
 class Player : public CMPUT350::CollisionObject {
 public:
@@ -27,8 +30,7 @@ private:
     CMPUT350::Point2D mLocation{};
     bool mIsAlive{};
     float mHalfSize{20.f};
-    std::weak_ptr<Bullet> mBullet1{};
-    std::weak_ptr<Bullet> mBullet2{};
+    std::vector<std::weak_ptr<Bullet>> mBullets{};
 };
 
 #endif
