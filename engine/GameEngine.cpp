@@ -21,14 +21,13 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
     }
 
     // NOTE: we need the font for these two so they're initialized here
-    mScreenContext = new DrawContext(mWindow, mFont);
+    mScreenContext = DrawContext(mWindow, mFont);
     mGameContext.mEngineView = this;
-    mGameContext.ScreenContext = mScreenContext;
+    mGameContext.ScreenContext = &mScreenContext;
 }
 
 GameEngine::~GameEngine() {
     // Cleanup resources
-    delete mScreenContext;
     mWindow->close();
 }
 

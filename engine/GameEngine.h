@@ -37,7 +37,7 @@ private:
     std::shared_ptr<sf::Font> mFont;
     std::vector<std::shared_ptr<GameObject>> mCreatedObjects{};  // waiting to be added
     std::vector<std::shared_ptr<GameObject>> mGameObjects{};     // already in
-    DrawContext *mScreenContext{};
+    DrawContext mScreenContext{nullptr, nullptr};
     // NOTE: not sure if this even needs to be a unique_ptr or a shared_ptr
     CMPUT350::GameContext mGameContext{};  
 };
