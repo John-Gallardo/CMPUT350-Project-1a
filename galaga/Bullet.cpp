@@ -27,7 +27,7 @@ void Bullet::Initialize(CMPUT350::GameContext* context)
 {
     mIsAlive = true;
     // using center, radius constructor. radius was arbitrarily chosen
-    mBoundingBox = CMPUT350::Rect(mLocation, 10);
+    mBoundingBox = CMPUT350::Rect(mLocation, 10.0f);
     // picture it as location as the middle, and the start and end points below and above
     mBulletRender = CMPUT350::Line({mLocation.x, mLocation.y + 5}, {mLocation.x, mLocation.y - 5});
 }
