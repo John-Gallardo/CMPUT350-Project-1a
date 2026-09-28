@@ -68,6 +68,18 @@ void GameEngine::Run() {
             if (event->is<sf::Event::Closed>()) {
                 mWindow->close();
                 return;
+            } 
+
+            // Reference: https://www.sfml-dev.org/tutorials/3.0/window/events/#the-textentered-event
+            // used over keyPress because we want to get the character pressed
+            const auto *textEntered{event->getIf<sf::Event::TextEntered>()};
+
+            // second part of if statement is to ensure we have a character in ASCII range [0, 127]
+            if (textEntered && textEntered->unicode < 128) {
+                char letter{static_cast<char>(textEntered->unicode)};
+                for (auto gameObject : mGameObjects) {
+                    gameObject->HandleKeyEvent(&mGameContext, letter);
+                }
             }
         }
 
