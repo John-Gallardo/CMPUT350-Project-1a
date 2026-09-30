@@ -22,7 +22,7 @@ void Player::LateUpdate(CMPUT350::GameContext* context) {}
 bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key) {
     const float width = static_cast<float>(context->ScreenContext->GetWindowWidth());
     const float height = static_cast<float>(context->ScreenContext->GetWindowHeight());
-
+    // Handle player movement and shooting based on key input
     if (key == 'a' || key == 'A') {
         mLocation.x -= 15.f;
         if (mLocation.x < mHalfSize) mLocation.x = mHalfSize;

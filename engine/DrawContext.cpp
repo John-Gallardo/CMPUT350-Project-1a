@@ -2,9 +2,12 @@
 
 namespace CMPUT350 {
 
+// stores the window and font for drawing, and provides functions to draw text, shapes, and lines on
+// the window
 DrawContext::DrawContext(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<sf::Font> font)
     : mWindow(window), mFont(font) {}
 
+// draw text cenetered on p
 void DrawContext::DrawCenteredText(const std::string& text, int pixelSize, Point2D p, RGBColor c) {
     sf::Text label(*mFont, text, static_cast<unsigned int>(pixelSize));
     label.setFillColor(sf::Color(c.r, c.g, c.b));
@@ -16,6 +19,7 @@ void DrawContext::DrawCenteredText(const std::string& text, int pixelSize, Point
     mWindow->draw(label);
 }
 
+// draw text with the top-left corner at p
 void DrawContext::DrawText(const std::string& text, int pixelSize, Point2D p, RGBColor c) {
     sf::Text label(*mFont, text, static_cast<unsigned int>(pixelSize));
     label.setFillColor(sf::Color(c.r, c.g, c.b));
@@ -26,6 +30,7 @@ void DrawContext::DrawText(const std::string& text, int pixelSize, Point2D p, RG
     mWindow->draw(label);
 }
 
+// draw a filled circle centered at p
 void DrawContext::DrawCircle(Point2D p, float radius, RGBColor c) {
     sf::CircleShape circle(radius);
     circle.setFillColor(sf::Color(c.r, c.g, c.b));
@@ -34,6 +39,7 @@ void DrawContext::DrawCircle(Point2D p, float radius, RGBColor c) {
     mWindow->draw(circle);
 }
 
+// draw a filled rectangle
 void DrawContext::DrawRect(Rect r, RGBColor c) {
     sf::RectangleShape rectangle({r.width, r.height});
     rectangle.setFillColor(sf::Color(c.r, c.g, c.b));
@@ -41,6 +47,7 @@ void DrawContext::DrawRect(Rect r, RGBColor c) {
     mWindow->draw(rectangle);
 }
 
+// draw a rectangle outline
 void DrawContext::FrameRect(Rect r, float width, RGBColor c) {
     sf::RectangleShape frameBox({r.width, r.height});
     // first fill the rectangle with transparent color, then set the outline color and thickness
