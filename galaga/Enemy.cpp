@@ -16,8 +16,8 @@ Enemy::Enemy(CMPUT350::Point2D loc)
 void Enemy::Initialize(CMPUT350::GameContext* context) {
     mIsAlive = true;
     // using center, radius constructor. radius is arbitrarily chosen
-    mEnemyRender = CMPUT350::Rect(mLocation, 50.0f);
-    mBoundingBox = CMPUT350::Rect(mLocation, 50.0f);
+    mEnemyRender = CMPUT350::Rect(mLocation, 20.0f);
+    mBoundingBox = CMPUT350::Rect(mLocation, 20.0f);
 }
 
 /**
