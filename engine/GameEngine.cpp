@@ -36,7 +36,6 @@ GameEngine::~GameEngine() {
  * @param gameObject The game object we want to add in the next frame.
  */
 void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {
-    // NOTE: not sure if this should have a std::move() or not
     mCreatedObjects.push_back(gameObject);
 }
 
@@ -71,7 +70,7 @@ void GameEngine::Run() {
 
             // Reference:
             // https://www.sfml-dev.org/tutorials/3.0/window/events/#the-textentered-event used over
-            // keyPress because we want to get the character pressed
+            // TextEntered because we want to get the character pressed
             const auto* textEntered{event->getIf<sf::Event::TextEntered>()};
 
             // second part of if statement is to ensure we have a character in ASCII range [0, 127]
@@ -99,22 +98,10 @@ void GameEngine::Run() {
             collisionObjects.push_back(collisionObject);
         }
 
-        // check for collisions with each other with a double loop
-        auto overlaps = [](const CMPUT350::Rect& a, const CMPUT350::Rect& b) {
-            return !(a.topLeft.x + a.width < b.topLeft.x || a.topLeft.y > b.topLeft.y + b.height ||
-                     a.topLeft.x > b.topLeft.x + b.width || a.topLeft.y + a.height < b.topLeft.y);
-        };
-
         for (size_t i{0}; i < collisionObjects.size(); i++) {
             auto collisionObject{collisionObjects[i]};
             for (size_t j{i + 1}; j < collisionObjects.size(); j++) {
                 auto otherObject{collisionObjects[j]};
-                const CMPUT350::Rect boundsA = collisionObject->GetBounds();
-                const CMPUT350::Rect boundsB = otherObject->GetBounds();
-                // If the two objects do not overlap, skip to the next pair
-                if (!overlaps(boundsA, boundsB)) {
-                    continue;
-                }
                 collisionObject->CollisionEnter(otherObject);
                 otherObject->CollisionEnter(
                     collisionObject);  // check both ways for collision events
