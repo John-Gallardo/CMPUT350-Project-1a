@@ -28,8 +28,6 @@ void Bullet::Initialize(CMPUT350::GameContext* context)
     mIsAlive = true;
     // using center, radius constructor. radius was arbitrarily chosen
     mBoundingBox = CMPUT350::Rect(mLocation, 10.0f);
-    // picture it as location as the middle, and the start and end points below and above
-    mBulletRender = CMPUT350::Line({mLocation.x, mLocation.y + 5}, {mLocation.x, mLocation.y - 5});
 }
 
 /**
@@ -39,6 +37,12 @@ void Bullet::Update(CMPUT350::GameContext* context)
 {
     mLocation += mHeading;
     mBoundingBox += mHeading;
+
+    // NOTE: this isn't in the spec but I thought it makes sense:
+    // we kill this bullet if it's out of bounds
+    if (mLocation.y < 0) {
+        mIsAlive = false;
+    }
 }
 
 /**
@@ -72,9 +76,12 @@ void Bullet::RenderBackground(CMPUT350::GameContext* context)
  */
 void Bullet::RenderForeground(CMPUT350::GameContext* context)
 {
+    // picture it as location as the middle, and the start and end points below and above
+    CMPUT350::Line bulletRender = CMPUT350::Line({mLocation.x, mLocation.y + 5}, {mLocation.x, mLocation.y - 5});
+
     CMPUT350::DrawContext *drawContext{context->ScreenContext};
     // width & color arbitrarily chosen
-    drawContext->DrawLine(mBulletRender.p1, mBulletRender.p2, 5, CMPUT350::Colors::red);
+    drawContext->DrawLine(bulletRender.p1, bulletRender.p2, 5, CMPUT350::Colors::red);
 }
 
 /**
