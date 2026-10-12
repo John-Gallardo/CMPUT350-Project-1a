@@ -176,6 +176,14 @@ struct Circle {
     Circle(float x, float y, float r) : center(x, y), radius(r) {}
 };
 
+/**
+ * @brief Print out circle position & radius in the format "(c.center.x, c.center.y, c.radius)"
+ */
+static std::ostream &operator<<(std::ostream &os, const Circle &c) {
+    os << '(' << c.center.x << ", " << c.center.y << ", " << c.radius << ')';
+    return os;
+}
+
 struct Rect {
     Point2D topLeft;
     float width, height;
