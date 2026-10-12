@@ -26,8 +26,7 @@ bool Bullet::IsPlayerBullet()
 void Bullet::Initialize(CMPUT350::GameContext* context)
 {
     mIsAlive = true;
-    // using center, radius constructor. radius was arbitrarily chosen
-    mBoundingBox = CMPUT350::Rect(mLocation, 10.0f);
+    mPrevLocation = mLocation;  // technically not correct but IDK what else to initialize it to
 }
 
 /**
@@ -35,8 +34,8 @@ void Bullet::Initialize(CMPUT350::GameContext* context)
  */
 void Bullet::Update(CMPUT350::GameContext* context)
 {
+    mPrevLocation = mLocation;
     mLocation += mHeading;
-    mBoundingBox += mHeading;
 
     // NOTE: this isn't in the spec but I thought it makes sense:
     // we kill this bullet if it's out of bounds
@@ -125,5 +124,8 @@ bool Bullet::IsAlive() const
  */
 const CMPUT350::Rect& Bullet::GetBounds()
 {
-    return mBoundingBox;
+    // the box formed by the previous and current location
+    static CMPUT350::Rect boundingBox{};
+    boundingBox = CMPUT350::Rect(mPrevLocation, mLocation);
+    return boundingBox;
 }

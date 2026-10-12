@@ -27,9 +27,9 @@ public:
     const CMPUT350::Rect& GetBounds() override;
 private:
     CMPUT350::Point2D mLocation{};
+    CMPUT350::Point2D mPrevLocation{};
     CMPUT350::Point2D mHeading{};
     bool mPlayer{};
     bool mIsAlive{};
-    CMPUT350::Rect mBoundingBox{};
 };
 #endif // BULLET_H
