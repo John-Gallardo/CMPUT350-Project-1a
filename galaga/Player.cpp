@@ -19,6 +19,7 @@ void Player::Update(CMPUT350::GameContext* context) {}
 
 void Player::LateUpdate(CMPUT350::GameContext* context) {}
 
+/* NOTE: commenting out & not deleting because it's a lot of code
 bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key) {
     const float width = static_cast<float>(context->ScreenContext->GetWindowWidth());
     const float height = static_cast<float>(context->ScreenContext->GetWindowHeight());
@@ -54,6 +55,7 @@ bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key) {
     }
     return false;
 }
+*/
 
 void Player::RenderBackground(CMPUT350::GameContext* context) {}
 

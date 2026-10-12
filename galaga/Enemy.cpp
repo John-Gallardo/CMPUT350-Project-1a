@@ -35,11 +35,6 @@ void Enemy::LateUpdate(CMPUT350::GameContext* context) {
 }
 
 /**
- * @brief Handles key events for the enemy (processes nothing)
- */
-bool Enemy::HandleKeyEvent(CMPUT350::GameContext* context, char key) { return false; }
-
-/**
  * @brief Renders this enemy's background (does nothing)
  */
 void Enemy::RenderBackground(CMPUT350::GameContext* context) {

@@ -54,15 +54,6 @@ void Bullet::LateUpdate(CMPUT350::GameContext* context)
 }
 
 /**
- * @brief Handles key events for a bullet (does nothing)
- */
-bool Bullet::HandleKeyEvent(CMPUT350::GameContext* context, char key)
-{
-    // NOTE: not sure if this is supposed to do anything, project description mentions nothing
-    return true;
-}
-
-/**
  * @brief Renders the background for the bullet (does nothing, no background)
  */
 void Bullet::RenderBackground(CMPUT350::GameContext* context)
