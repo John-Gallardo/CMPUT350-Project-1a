@@ -4,6 +4,7 @@
 #include "DrawContext.h"
 #include "EngineView.h"
 #include "GameObject.h"
+#include "NotificationManager.h"
 
 namespace CMPUT350 {
 
