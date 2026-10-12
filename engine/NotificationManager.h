@@ -1,5 +1,10 @@
 #pragma once  // header guard
 
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 namespace CMPUT350 {
 
 class NotificationManager {
