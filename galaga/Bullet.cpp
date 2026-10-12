@@ -129,3 +129,11 @@ const CMPUT350::Rect& Bullet::GetBounds()
     boundingBox = CMPUT350::Rect(mPrevLocation, mLocation);
     return boundingBox;
 }
+
+/**
+ * @brief Returns this bullet's shapes
+ */
+const std::vector<CMPUT350::Shape> &Bullet::GetShapes() {
+    return mShapes;
+}
+
