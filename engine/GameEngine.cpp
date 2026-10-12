@@ -98,13 +98,29 @@ void GameEngine::Run() {
             collisionObjects.push_back(collisionObject);
         }
 
+        // process collisions only for objects that collide
         for (size_t i{0}; i < collisionObjects.size(); i++) {
+            // grab bounding box for current object
             auto collisionObject{collisionObjects[i]};
+            const auto &collisionBoundingBox{collisionObject->GetBounds()};
+
             for (size_t j{i + 1}; j < collisionObjects.size(); j++) {
+                // grab bounding box for other object
                 auto otherObject{collisionObjects[j]};
+                const auto &otherBoundingBox{otherObject->GetBounds()};
+
+                // check if bounding boxes are NOT intersecting
+                if (collisionBoundingBox.topLeft.x + collisionBoundingBox.width < otherBoundingBox.topLeft.x ||  // 1. Check if is to the left
+                    collisionBoundingBox.topLeft.y > otherBoundingBox.topLeft.y + otherBoundingBox.height ||     // 2. Check if is below
+                    collisionBoundingBox.topLeft.x > otherBoundingBox.topLeft.x + otherBoundingBox.width ||      // 3. Check if is to the right
+                    collisionBoundingBox.topLeft.y + collisionBoundingBox.height < otherBoundingBox.topLeft.y)   // 4. Check if is above 
+                {
+                    continue;
+                }
+
+                // check both ways for collision events
                 collisionObject->CollisionEnter(otherObject);
-                otherObject->CollisionEnter(
-                    collisionObject);  // check both ways for collision events
+                otherObject->CollisionEnter(collisionObject); 
             }
         }
 

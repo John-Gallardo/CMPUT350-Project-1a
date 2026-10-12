@@ -58,16 +58,6 @@ void Enemy::RenderForeground(CMPUT350::GameContext* context) {
  * @brief Processes enemy collisions with 1. a player, or 2. a bullet.
  */
 void Enemy::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) {
-    const CMPUT350::Rect &objBounds{obj->GetBounds()};
-    // check if bounding boxes are NOT intersecting
-    if (mBoundingBox.topLeft.x + mBoundingBox.width < objBounds.topLeft.x ||  // 1. Check if enemy is to the left
-        mBoundingBox.topLeft.y > objBounds.topLeft.y + objBounds.height ||    // 2. Check if enemy is below
-        mBoundingBox.topLeft.x > objBounds.topLeft.x + objBounds.width ||     // 3. Check if enemy is to the right
-        mBoundingBox.topLeft.y + mBoundingBox.height < objBounds.topLeft.y)   // 4. Check if enemy is above 
-    {
-        return;
-    }
-
     // Case 1: enemy & player bullet intersection -> kill bullet
     auto bullet{std::dynamic_pointer_cast<Bullet>(obj)};
     if (bullet && bullet->IsPlayerBullet()) {
