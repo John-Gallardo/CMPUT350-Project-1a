@@ -1,3 +1,4 @@
+#include "GameObject.h"
 #include "NotificationManager.h"
 #include <memory>
 #include <string>
