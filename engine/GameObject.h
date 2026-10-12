@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include <string>  // for ReceiveNotification
+
 namespace CMPUT350 {
 
 class GameContext;

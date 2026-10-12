@@ -77,7 +77,8 @@ void GameEngine::Run() {
             if (textEntered && textEntered->unicode < 128) {
                 char letter{static_cast<char>(textEntered->unicode)};
                 for (auto gameObject : mGameObjects) {
-                    gameObject->HandleKeyEvent(&mGameContext, letter);
+                    // TODO: HandleKeyEvent is entirely removed!!
+                    //gameObject->HandleKeyEvent(&mGameContext, letter);
                 }
             }
         }
