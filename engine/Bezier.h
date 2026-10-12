@@ -1,6 +1,7 @@
 #pragma once  // not taught in class but this is basically a header guard
 
 #include <vector>
+#include "MathUtil.h"
 
 namespace CMPUT350 {
 
