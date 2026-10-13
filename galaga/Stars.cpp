@@ -32,3 +32,17 @@ void Stars::RenderBackground(CMPUT350::GameContext* context)
             star.y -= mBounds.height;
     }
 }
+
+/**
+ * @brief Only added since compiler is complaining
+ */
+CMPUT350::Point2D Stars::GetLocation() const {
+    return {};
+}
+
+/**
+ * @brief Only added since compiler is complaining
+ */
+float Stars::GetRotation() const {
+    return 0.0f;
+}
