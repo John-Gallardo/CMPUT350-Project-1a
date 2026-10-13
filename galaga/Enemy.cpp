@@ -88,3 +88,24 @@ bool Enemy::IsAlive() const {
 const CMPUT350::Rect& Enemy::GetBounds() {
     return mBoundingBox;
 }
+
+/**
+ * TODO:
+ */
+CMPUT350::Point2D Enemy::GetLocation() const {
+    return {};
+}
+
+/**
+ * TODO:
+ */
+float Enemy::GetRotation() const {
+    return 0.0f;
+}
+
+/**
+ * Returns this enemy's shapes
+ */
+const std::vector<CMPUT350::Shape> &Enemy::GetShapes() {
+    return mShapes;
+}
