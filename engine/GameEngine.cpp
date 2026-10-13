@@ -173,31 +173,31 @@ void GameEngine::InstallKeyUpNotification(int key, const std::string &notificati
 }
 
 /**
- * TODO: implement
+ * @brief Returns mGameObject's cbegin iterator
  */
 EngineView::const_iterator GameEngine::cbegin() const {
-    return {};
+    return mGameObjects.cbegin();
 }
 
 /**
- * TODO: implement
+ * @brief Returns mGameObject's cend iterator
  */
 EngineView::const_iterator GameEngine::cend() const {
-    return {};
+    return mGameObjects.cend();
 }
 
 /**
- * TODO: implement
+ * @brief Returns mGameObject's begin iterator
  */
 EngineView::const_iterator GameEngine::begin() const {
-    return {};
+    return mGameObjects.begin();
 }
 
 /**
- * TODO: implement
+ * @brief Returns mGameObject's end iterator
  */
 EngineView::const_iterator GameEngine::end() const {
-    return {};
+    return mGameObjects.end();
 }
 
 
