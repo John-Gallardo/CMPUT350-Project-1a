@@ -100,7 +100,10 @@ public:
     // NOTE: only added because of compiler complaining
     CMPUT350::Point2D GetLocation() const override { return {}; }
     float GetRotation() const override { return 0.0f; }
-    const std::vector<CMPUT350::Shape> &GetShapes() { return {}; }
+    const std::vector<CMPUT350::Shape> &GetShapes() { 
+        static std::vector<CMPUT350::Shape> someVec{};
+        return someVec;
+    }
 
 private:
     static std::random_device rd;
