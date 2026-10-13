@@ -158,6 +158,49 @@ void GameEngine::Run() {
     }
 }
 
+/**
+ * TODO: implement
+ */
+void GameEngine::InstallKeyDownNotification(int key, const std::string &notification) {
+    
+}
+
+/**
+ * TODO: implement
+ */
+void GameEngine::InstallKeyUpNotification(int key, const std::string &notification) {
+
+}
+
+/**
+ * TODO: implement
+ */
+EngineView::const_iterator GameEngine::cbegin() const {
+    return {};
+}
+
+/**
+ * TODO: implement
+ */
+EngineView::const_iterator GameEngine::cend() const {
+    return {};
+}
+
+/**
+ * TODO: implement
+ */
+EngineView::const_iterator GameEngine::begin() const {
+    return {};
+}
+
+/**
+ * TODO: implement
+ */
+EngineView::const_iterator GameEngine::end() const {
+    return {};
+}
+
+
 // Sample code for processing events
 
 // bool GameEngine::ProcessEvents(GameContext *context)

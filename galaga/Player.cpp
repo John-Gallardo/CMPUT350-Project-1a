@@ -116,6 +116,8 @@ float Player::GetRotation() const {
 /**
  * TODO:
  */
-const std::vector<CMPUT350::Shape> &GetShapes() {
-    return {};
+const std::vector<CMPUT350::Shape> &Player::GetShapes() {
+    // TODO: remove this code. filler was added so compiler doesn't complain about warning
+    static std::vector<CMPUT350::Shape> someVec{};
+    return someVec;
 }

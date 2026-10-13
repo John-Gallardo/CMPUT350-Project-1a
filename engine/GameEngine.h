@@ -13,6 +13,8 @@ class GameEngine;
 #include <SFML/Graphics.hpp>
 #include <memory>  // for std::shared_ptr
 #include <vector>
+#include <string>
+#include <unordered_map>
 
 namespace CMPUT350 {
 
@@ -31,6 +33,14 @@ public:
     void AddGameObject(std::shared_ptr<GameObject> gameObject) override;
 
     void Run();
+
+    // TODO: all of these functions!!!
+    void InstallKeyDownNotification(int key, const std::string &notification) override;
+    void InstallKeyUpNotification(int key, const std::string &notification) override;
+    const_iterator cbegin() const override;
+    const_iterator cend() const override;
+    const_iterator begin() const override;
+    const_iterator end() const override;
 
 private:
     std::shared_ptr<sf::RenderWindow> mWindow;
