@@ -128,3 +128,23 @@ const std::vector<CMPUT350::Shape> &Bullet::GetShapes() {
     return mShapes;
 }
 
+/**
+ * Returns this bullet's location
+ */
+CMPUT350::Point2D Bullet::GetLocation() const {
+    return mLocation;
+}
+
+/**
+ * TODO: finish
+ */
+float Bullet::GetRotation() const {
+    return 0.0f;
+}
+
+/**
+ * TODO: finish
+ */
+void Bullet::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj, const CMPUT350::Point2D &collisionPoint) {
+    return;
+}
