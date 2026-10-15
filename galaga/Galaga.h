@@ -1,5 +1,7 @@
 #pragma once  // header guard
 
+#include "GameObject.h"
+
 // inherits GameObject because it needs to be able to added to the engine
 class Galaga : public CMPUT350::GameObject {
     public:
@@ -13,5 +15,5 @@ class Galaga : public CMPUT350::GameObject {
         };
 
     private:
-        State mState{waiting};  // start at waiting state
+        State mState{Waiting};  // start at waiting state
 };
