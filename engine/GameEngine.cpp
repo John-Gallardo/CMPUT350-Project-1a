@@ -58,11 +58,15 @@ void GameEngine::Run() {
         std::erase_if(mGameObjects, isDead);
 
         // 1. Activate and initialize any objects added during the last frame
-        for (const auto& gameObject : mCreatedObjects) {
+        // NOTE: use another createdObjects vector because game objects can call AddGameObject causing iterator invalidation if we went through mCreatedObjects
+        auto createdObjects{mCreatedObjects};
+        mCreatedObjects.clear();
+        for (const auto& gameObject : createdObjects) {
+            // NOTE: give a weak ptr since the object can't build a weak_ptr to itself for objects it creates! it only has 'this' which is a raw ptr
+            mGameContext.CurrObject = gameObject;
             gameObject->Initialize(&mGameContext);
             mGameObjects.push_back(gameObject);
         }
-        mCreatedObjects.clear();
 
         // 2. Process events
         // Reference: CMPUT350 Lab 2 Exercise's processInputs()
