@@ -22,8 +22,12 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
 
     // NOTE: we need the font for these two so they're initialized here
     mScreenContext = DrawContext(mWindow, mFont);
+    mGUIContext = DrawContext(mWindow, mFont);
     mGameContext.mEngineView = this;
     mGameContext.ScreenContext = &mScreenContext;
+    mGameContext.GUIContext = &mGUIContext;
+    mGameContext.mNotificationManager = &mNotificationManager;
+    mGameContext.currentFrame = 0;
 }
 
 GameEngine::~GameEngine() {
@@ -155,6 +159,9 @@ void GameEngine::Run() {
 
         // Actually render to window
         mWindow->display();
+
+        // Move onto next frame by incrementing currentFrame
+        mGameContext.currentFrame++;
     }
 }
 

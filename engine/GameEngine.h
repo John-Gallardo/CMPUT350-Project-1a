@@ -48,6 +48,8 @@ private:
     std::vector<std::shared_ptr<GameObject>> mCreatedObjects{};  // waiting to be added
     std::vector<std::shared_ptr<GameObject>> mGameObjects{};     // already in
     DrawContext mScreenContext{nullptr, nullptr};
+    DrawContext mGUIContext{nullptr, nullptr};
+    NotificationManager mNotificationManager{};
     // NOTE: not sure if this even needs to be a unique_ptr or a shared_ptr
     CMPUT350::GameContext mGameContext{};  
 };
