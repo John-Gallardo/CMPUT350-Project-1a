@@ -34,7 +34,7 @@ public:
 
     void Run();
 
-    // TODO: all of these functions!!!
+    // Part 1B functions
     void InstallKeyDownNotification(int key, const std::string &notification) override;
     void InstallKeyUpNotification(int key, const std::string &notification) override;
     const_iterator cbegin() const override;
@@ -47,11 +47,14 @@ private:
     std::shared_ptr<sf::Font> mFont;
     std::vector<std::shared_ptr<GameObject>> mCreatedObjects{};  // waiting to be added
     std::vector<std::shared_ptr<GameObject>> mGameObjects{};     // already in
+    // NOTE: key is an int, we have a std::vector<std::string>> for value because "[GameEngine] should manage a list of strings that have been registered for each key press (up or down)"
+    std::unordered_map<int, std::vector<std::string>> mKeyDownNotifications{};
+    std::unordered_map<int, std::vector<std::string>> mKeyUpNotifications{};  
     DrawContext mScreenContext{nullptr, nullptr};
     DrawContext mGUIContext{nullptr, nullptr};
     NotificationManager mNotificationManager{};
     // NOTE: not sure if this even needs to be a unique_ptr or a shared_ptr
-    CMPUT350::GameContext mGameContext{};  
+    CMPUT350::GameContext mGameContext{};   
 };
 
 }  // namespace CMPUT350

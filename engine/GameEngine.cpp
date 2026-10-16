@@ -72,19 +72,35 @@ void GameEngine::Run() {
                 return;
             }
 
-            // Reference:
-            // https://www.sfml-dev.org/tutorials/3.0/window/events/#the-textentered-event used over
-            // TextEntered because we want to get the character pressed
-            const auto* textEntered{event->getIf<sf::Event::TextEntered>()};
-
-            // second part of if statement is to ensure we have a character in ASCII range [0, 127]
-            if (textEntered && textEntered->unicode < 128) {
-                char letter{static_cast<char>(textEntered->unicode)};
-                for (auto gameObject : mGameObjects) {
-                    // TODO: HandleKeyEvent is entirely removed!!
-                    //gameObject->HandleKeyEvent(&mGameContext, letter);
+            // NOTE: Switched to key press instead of text entered because of GameEngine.h/.cpp spec
+            // 1. process pressed event
+            const auto *pressed{event->getIf<sf::Event::KeyPressed>()};
+            if (pressed) {
+                const int scancode{static_cast<int>(pressed->scancode)};
+                // send notifications ONLY if key is one of the keys we want to send notifications for in keyPressed
+                if (mKeyDownNotifications.contains(scancode)) {
+                    const auto &notifications{mKeyDownNotifications[scancode]};
+                    // loop through all associated notifications with this key press
+                    for (const auto &notification : notifications) {
+                        mNotificationManager.Notify(notification);
+                    }
                 }
             }
+
+            // 2. process released event
+            const auto *released{event->getIf<sf::Event::KeyReleased>()};
+            if (released) {
+                const int scancode{static_cast<int>(released->scancode)};
+                // again, send notifications ONLY for same idea as above
+                if (mKeyUpNotifications.contains(scancode)) {
+                    const auto &notifications{mKeyUpNotifications[scancode]};
+                    // loop through all associated notifications with this key release event
+                    for (const auto &notification : notifications) {
+                        mNotificationManager.Notify(notification);
+                    }
+                }
+            }
+
         }
 
         // 3. Update game objects
@@ -93,6 +109,7 @@ void GameEngine::Run() {
         }
 
         // 4. Process collision events
+        // TODO: Compute collisions of all types!!!
         // grab all collision objects
         std::vector<std::shared_ptr<CollisionObject>> collisionObjects{};
         for (const auto& gameObject : mGameObjects) {
@@ -147,6 +164,8 @@ void GameEngine::Run() {
             graphicsObjects.push_back(graphicsObject);
         }
 
+        // TODO: "Get offsets and rotations from objects before they are asked to render to the screen"
+
         // 6. Render background
         for (const auto& graphicsObject : graphicsObjects) {
             graphicsObject->RenderBackground(&mGameContext);
@@ -166,17 +185,17 @@ void GameEngine::Run() {
 }
 
 /**
- * TODO: implement
+ * @brief Add string notification associated to this particular key press for key down
  */
 void GameEngine::InstallKeyDownNotification(int key, const std::string &notification) {
-    
+    mKeyDownNotifications[key].push_back(notification);
 }
 
 /**
- * TODO: implement
+ * @brief Add string notification associated to this particular key press for key up
  */
 void GameEngine::InstallKeyUpNotification(int key, const std::string &notification) {
-
+    mKeyUpNotifications[key].push_back(notification);
 }
 
 /**
