@@ -71,8 +71,12 @@ void Bullet::RenderForeground(CMPUT350::GameContext* context)
     CMPUT350::Line bulletRender = CMPUT350::Line({mLocation.x, mLocation.y + 5}, {mLocation.x, mLocation.y - 5});
 
     CMPUT350::DrawContext *drawContext{context->ScreenContext};
-    // width & color arbitrarily chosen
-    drawContext->DrawLine(bulletRender.p1, bulletRender.p2, 5, CMPUT350::Colors::red);
+    // width arbitrarily chosen. fires blue if player, red otherwise
+    if (mPlayer) {
+        drawContext->DrawLine(bulletRender.p1, bulletRender.p2, 5, CMPUT350::Colors::blue);
+    } else {
+        drawContext->DrawLine(bulletRender.p1, bulletRender.p2, 5, CMPUT350::Colors::red);
+    }
 }
 
 /**
