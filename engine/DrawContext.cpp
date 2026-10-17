@@ -18,7 +18,7 @@ Point2D DrawContext::Transform(Point2D p) {
     return {p.x * c - p.y * s + mOffset.x, p.x * s + p.y * c + mOffset.y};
 }
 
-// rotates point p by -mRotation and then subtracts mOffset from it
+// reverse the transform, subtract mOffset and then rotate by -mRotation
 Point2D DrawContext::ReverseTransform(Point2D p) {
     float dx = p.x - mOffset.x;
     float dy = p.y - mOffset.y;
@@ -52,7 +52,9 @@ void DrawContext::DrawCenteredText(const std::string& text, int pixelSize, Point
     sf::FloatRect textBounds = label.getLocalBounds();
     label.setOrigin({textBounds.position.x + textBounds.size.x / 2.0f,
                      textBounds.position.y + textBounds.size.y / 2.0f});
-    label.setPosition({p.x, p.y});
+    Point2D world = Transform(p);
+    label.setPosition({world.x, world.y});
+    label.setRotation(sf::radians(mRotation));
     mWindow->draw(label);
 }
 
@@ -63,52 +65,52 @@ void DrawContext::DrawText(const std::string& text, int pixelSize, Point2D p, RG
     // Set the origin to the top-left corner of the text bounds
     sf::FloatRect textBounds = label.getLocalBounds();
     label.setOrigin(textBounds.position);
-    label.setPosition({p.x, p.y});
+    Point2D world = Transform(p);
+    label.setPosition({world.x, world.y});
+    label.setRotation(sf::radians(mRotation));
     mWindow->draw(label);
 }
 
 // draw a filled circle centered at p
 void DrawContext::DrawCircle(Point2D p, float radius, RGBColor c) {
+    Point2D world = Transform(p);
     sf::CircleShape circle(radius);
     circle.setFillColor(sf::Color(c.r, c.g, c.b));
     circle.setOrigin({radius, radius});
-    circle.setPosition({p.x, p.y});
+    circle.setPosition({world.x, world.y});
     mWindow->draw(circle);
 }
 
 // draw a filled rectangle
 void DrawContext::DrawRect(Rect r, RGBColor c) {
-    sf::RectangleShape rectangle({r.width, r.height});
-    rectangle.setFillColor(sf::Color(c.r, c.g, c.b));
-    rectangle.setPosition({r.topLeft.x, r.topLeft.y});
-    mWindow->draw(rectangle);
+    Point2D corners[4] = {
+        Transform(r.topLeft),
+        Transform(Point2D(r.topLeft.x + r.width, r.topLeft.y)),
+        Transform(Point2D(r.topLeft.x + r.width, r.topLeft.y + r.height)),
+        Transform(Point2D(r.topLeft.x, r.topLeft.y + r.height)),
+    };
+    sf::ConvexShape polygon(4);
+    for (int i = 0; i < 4; i++) polygon.setPoint(i, {corners[i].x, corners[i].y});
+    polygon.setFillColor(sf::Color(c.r, c.g, c.b));
+    mWindow->draw(polygon);
 }
 
 // draw a rectangle outline
 void DrawContext::FrameRect(Rect r, float width, RGBColor c) {
-    sf::RectangleShape frameBox({r.width, r.height});
-    // first fill the rectangle with transparent color, then set the outline color and thickness
-    frameBox.setFillColor(sf::Color::Transparent);
-    frameBox.setOutlineColor(sf::Color(c.r, c.g, c.b));
-    // width is negative to draw the outline inside the rectangle
-    frameBox.setOutlineThickness(-width);
-    frameBox.setPosition({r.topLeft.x, r.topLeft.y});
-    mWindow->draw(frameBox);
+    Point2D tl = r.topLeft;
+    Point2D tr(r.topLeft.x + r.width, r.topLeft.y);
+    Point2D br(r.topLeft.x + r.width, r.topLeft.y + r.height);
+    Point2D bl(r.topLeft.x, r.topLeft.y + r.height);
+    DrawLine(tl, tr, width, c);
+    DrawLine(tr, br, width, c);
+    DrawLine(br, bl, width, c);
+    DrawLine(bl, tl, width, c);
 }
 
-/**
- * @brief Draws a line between two points with a specified width and color.
- *
- * @param from The starting point of the line (Point2D).
- * @param to The ending point of the line (Point2D).
- * @param width The width of the line in pixels.
- * @param c The color of the line, specified as an RGBColor object.
- *
- * This function calculates the distance and angle between the two points
- * and uses a polygone shape to represent the line. The line is drawn
- * relative to the world offset and rendered onto the associated window.
- */
+// draw a line from from to to with the given width
 void DrawContext::DrawLine(Point2D from, Point2D to, float width, RGBColor c) {
+    from = Transform(from);
+    to = Transform(to);
     float dx = to.x - from.x;
     float dy = to.y - from.y;
     float length = static_cast<float>(from.Distance(to));
