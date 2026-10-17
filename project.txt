@@ -28,3 +28,4 @@ John Gallardo: Galaga state machine and coins, Enemy paths, formation, firing, a
                and Player movement and firing from notification strings.
 
 AI use
+Used AI for documentation and for googling
