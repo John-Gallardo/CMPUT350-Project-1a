@@ -17,6 +17,7 @@ Player::Player(CMPUT350::Point2D loc) : mLocation{loc} {}
 void Player::Initialize(CMPUT350::GameContext* context) {
     mIsAlive = true;
     mRotation = 0.0f;
+    mWindowWidth = static_cast<float>(context->ScreenContext->GetWindowWidth());
     context->mNotificationManager->Register(context->CurrObject, "MoveLeft");
     context->mNotificationManager->Register(context->CurrObject, "MoveRight");
     context->mNotificationManager->Register(context->CurrObject, "Fire");
@@ -139,10 +140,14 @@ void Player::ReceiveNotification(const std::string &key) {
     // repurposed code from HandleKeyEvent
     if (key == "MoveLeft") {
         mLocation.x -= 15.f;
+        if (mLocation.x < mHalfSize) mLocation.x = mHalfSize;
     }
 
     if (key == "MoveRight") {
         mLocation.x += 15.f;
+        if (mLocation.x > mWindowWidth - mHalfSize) {
+            mLocation.x = mWindowWidth - mHalfSize;
+        }
     }
 
     if (key == "Fire") {

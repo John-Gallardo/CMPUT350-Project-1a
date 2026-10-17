@@ -7,7 +7,7 @@
 class Bullet : public CMPUT350::CollisionObject
 {
 public:
-    Bullet(CMPUT350::Point2D location, CMPUT350::Point2D heading, bool player);
+    Bullet(CMPUT350::Point2D location, CMPUT350::Point2D heading, bool player, std::weak_ptr<CMPUT350::GameObject> parent = {});
     bool IsPlayerBullet();
 
     // GameObject Functions

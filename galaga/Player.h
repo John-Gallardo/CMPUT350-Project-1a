@@ -36,6 +36,7 @@ private:
     bool mIsAlive{};
     float mHalfSize{20.f};
     float mRotation{};
+    int mWindowWidth{};
     std::vector<std::weak_ptr<Bullet>> mBullets{};
     CMPUT350::EngineView *mEngineView{nullptr};  // save engine view for firing bullets
     std::weak_ptr<CMPUT350::GameObject> mSelf{};
