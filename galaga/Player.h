@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "CollisionObject.h"
+#include "EngineView.h"
 #include <memory>
 #include <vector>
 class Bullet;  // forward declaration for our member variable
@@ -36,6 +37,8 @@ private:
     bool mIsAlive{};
     float mHalfSize{20.f};
     std::vector<std::weak_ptr<Bullet>> mBullets{};
+    CMPUT350::EngineView *mEngineView{nullptr};  // save engine view for firing bullets
+    std::weak_ptr<CMPUT350::GameObject> mSelf{};
 };
 
 #endif

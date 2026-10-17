@@ -7,9 +7,10 @@
 int main()
 {
     CMPUT350::GameEngine engine(768, 1024, "Galaga");
-    // notifications for moving left & right
+    // notifications for moving left, right + firing
     engine.InstallKeyDownNotification(static_cast<int>(sf::Keyboard::Scan::A), "MoveLeft");
     engine.InstallKeyDownNotification(static_cast<int>(sf::Keyboard::Scan::D), "MoveRight");
+    engine.InstallKeyDownNotification(static_cast<int>(sf::Keyboard::Scan::Space), "Fire");
 
     auto player = std::make_shared<Player>(CMPUT350::Point2D(768 / 2, 900));
     engine.AddGameObject(player);

@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "Bullet.h"
+#include "EngineView.h"
 
 /**
  * @brief Constructor, only sets player location to loc
@@ -17,6 +18,10 @@ void Player::Initialize(CMPUT350::GameContext* context) {
     mIsAlive = true;
     context->mNotificationManager->Register(context->CurrObject, "MoveLeft");
     context->mNotificationManager->Register(context->CurrObject, "MoveRight");
+    context->mNotificationManager->Register(context->CurrObject, "Fire");
+
+    mEngineView = context->mEngineView;
+    mSelf = context->CurrObject;
 }
 
 void Player::Update(CMPUT350::GameContext* context) {}
@@ -139,4 +144,22 @@ void Player::ReceiveNotification(const std::string &key) {
         mLocation.x += 15.f;
     }
 
+    if (key == "Fire") {
+        // remove expired bullets from the vector
+        mBullets.erase(
+            std::remove_if(mBullets.begin(), mBullets.end(),
+                           [](const std::weak_ptr<Bullet>& bullet) { return bullet.expired(); }),
+            mBullets.end());
+
+        // check if we can shoot a bullet
+        if (mBullets.size() >= 2) {
+            return;
+        }
+
+        auto bullet =
+            std::make_shared<Bullet>(CMPUT350::Point2D(mLocation.x, mLocation.y - mHalfSize),
+                                     CMPUT350::Point2D(0.f, -15.f), true);
+        mBullets.push_back(bullet);
+        mEngineView->AddGameObject(bullet);
+    }
 }
