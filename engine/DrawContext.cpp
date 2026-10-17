@@ -136,27 +136,4 @@ int DrawContext::GetWindowWidth() { return mWindow->getSize().x; }
 
 int DrawContext::GetWindowHeight() { return mWindow->getSize().y; }
 
-void DrawContext::SetContextOffset(Point2D p) {
-    // TODO:
-}
-
-void DrawContext::SetContextRotation(float rotation) {
-    // TODO:
-}
-
-Point2D DrawContext::Transform(Point2D p) {
-    // TODO: (code is filler to stop warning)
-    return {};
-}
-
-Point2D DrawContext::ReverseTransform(Point2D p) {
-    // TODO:
-    return {};
-}
-
-Rect DrawContext::Transform(Rect r) {
-    // TODO:
-    return {};
-}
-
 }  // namespace CMPUT350
