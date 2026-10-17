@@ -31,8 +31,8 @@ const RGBColor grey(200, 200, 200);
 class DrawContext {
 public:
     DrawContext(std::shared_ptr<sf::RenderWindow> mWindow, std::shared_ptr<sf::Font> font);
-    void DrawText(const std::string &text, int pixelSize, Point2D p, RGBColor c);
-    void DrawCenteredText(const std::string &text, int pixelSize, Point2D p, RGBColor c);
+    void DrawText(const std::string& text, int pixelSize, Point2D p, RGBColor c);
+    void DrawCenteredText(const std::string& text, int pixelSize, Point2D p, RGBColor c);
     void DrawCircle(Point2D p, float radius, RGBColor c);
     void DrawRect(Rect r, RGBColor c);
     void FrameRect(Rect r, float width, RGBColor c);
@@ -41,14 +41,18 @@ public:
     int GetWindowHeight();
 
 private:
-	friend class GameEngine;
-	void SetContextOffset(Point2D p);
-	void SetContextRotation(float rotation);
-	Point2D Transform(Point2D p);
-	Point2D ReverseTransform(Point2D p);
-	Rect Transform(Rect r); // Rotates rectangle and computes new bounding box after rotation
+    friend class GameEngine;
+    void SetContextOffset(Point2D p);
+    void SetContextRotation(float rotation);
+    Point2D Transform(Point2D p);
+    Point2D ReverseTransform(Point2D p);
+    Rect Transform(Rect r);  // Rotates rectangle and computes new bounding box after rotation
     std::shared_ptr<sf::RenderWindow> mWindow;
     std::shared_ptr<sf::Font> mFont;
+    // engine sets the context offset and rotation, and DrawContext uses these to transform points
+    // and rectangles before drawing them
+    Point2D mOffset{0, 0};
+    float mRotation{0.f};
 };
 
 }  // namespace CMPUT350

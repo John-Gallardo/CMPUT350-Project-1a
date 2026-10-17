@@ -1,4 +1,7 @@
 #include "DrawContext.h"
+
+#include <cmath>
+
 #include "MathUtil.h"
 
 namespace CMPUT350 {
@@ -7,6 +10,39 @@ namespace CMPUT350 {
 // the window
 DrawContext::DrawContext(std::shared_ptr<sf::RenderWindow> window, std::shared_ptr<sf::Font> font)
     : mWindow(window), mFont(font) {}
+
+// rotates point p by mRotation and then adds mOffset to it
+Point2D DrawContext::Transform(Point2D p) {
+    float c = std::cos(mRotation);
+    float s = std::sin(mRotation);
+    return {p.x * c - p.y * s + mOffset.x, p.x * s + p.y * c + mOffset.y};
+}
+
+// rotates point p by -mRotation and then subtracts mOffset from it
+Point2D DrawContext::ReverseTransform(Point2D p) {
+    float dx = p.x - mOffset.x;
+    float dy = p.y - mOffset.y;
+    float c = std::cos(mRotation);
+    float s = std::sin(mRotation);
+    return {dx * c + dy * s, -dx * s + dy * c};
+}
+
+// rotates rectangle r by mRotation and then adds mOffset to it, returning the bounding box of the
+// rotated rectangle
+Rect DrawContext::Transform(Rect r) {
+    Point2D c0 = Transform(r.topLeft);
+    Point2D c1 = Transform(Point2D(r.topLeft.x + r.width, r.topLeft.y));
+    Point2D c2 = Transform(Point2D(r.topLeft.x, r.topLeft.y + r.height));
+    Point2D c3 = Transform(Point2D(r.topLeft.x + r.width, r.topLeft.y + r.height));
+    Rect box(c0, c1);
+    box |= c2;
+    box |= c3;
+    return box;
+}
+
+void DrawContext::SetContextOffset(Point2D p) { mOffset = p; }
+
+void DrawContext::SetContextRotation(float rotation) { mRotation = rotation; }
 
 // draw text cenetered on p
 void DrawContext::DrawCenteredText(const std::string& text, int pixelSize, Point2D p, RGBColor c) {
@@ -99,7 +135,6 @@ void DrawContext::DrawLine(Point2D from, Point2D to, float width, RGBColor c) {
 int DrawContext::GetWindowWidth() { return mWindow->getSize().x; }
 
 int DrawContext::GetWindowHeight() { return mWindow->getSize().y; }
-
 
 void DrawContext::SetContextOffset(Point2D p) {
     // TODO:
