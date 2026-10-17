@@ -7,7 +7,7 @@
 /**
  * @brief Constructor, sets location, heading, and player
  */
-Bullet::Bullet(CMPUT350::Point2D location, CMPUT350::Point2D heading, bool player)
+Bullet::Bullet(CMPUT350::Point2D location, CMPUT350::Point2D heading, bool player, std::weak_ptr<CMPUT350::GameObject> parent)
 : mLocation{location}, mHeading{heading}, mPlayer{player}
 {
 }
