@@ -35,6 +35,7 @@ private:
     CMPUT350::Point2D mPrevLocation{};
     CMPUT350::Point2D mHeading{};
     std::vector<CMPUT350::Shape> mShapes{};
+    float mRotation{};
     bool mPlayer{};
     bool mIsAlive{};
 };

@@ -34,6 +34,7 @@ private:
     CMPUT350::Rect mEnemyRender{};  // enemy is rendered as a square
     CMPUT350::Rect mBoundingBox{};
     std::vector<CMPUT350::Shape> mShapes{};
+    float mRotation{};
 };
 
 

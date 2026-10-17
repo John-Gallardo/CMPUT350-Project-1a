@@ -16,6 +16,7 @@ Player::Player(CMPUT350::Point2D loc) : mLocation{loc} {}
  */
 void Player::Initialize(CMPUT350::GameContext* context) {
     mIsAlive = true;
+    mRotation = 0.0f;
     context->mNotificationManager->Register(context->CurrObject, "MoveLeft");
     context->mNotificationManager->Register(context->CurrObject, "MoveRight");
     context->mNotificationManager->Register(context->CurrObject, "Fire");
@@ -116,10 +117,10 @@ CMPUT350::Point2D Player::GetLocation() const {
 }
 
 /**
- * TODO:
+ * Returns Player's rotation
  */
 float Player::GetRotation() const {
-    return 0.0f;
+    return mRotation;
 }
 
 /**
