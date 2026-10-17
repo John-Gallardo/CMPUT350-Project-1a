@@ -11,9 +11,13 @@
 Player::Player(CMPUT350::Point2D loc) : mLocation{loc} {}
 
 /**
- * @brief Initializes other member variables of the player
+ * @brief Initializes member variables of player & registers in the engine
  */
-void Player::Initialize(CMPUT350::GameContext* context) { mIsAlive = true; }
+void Player::Initialize(CMPUT350::GameContext* context) {
+    mIsAlive = true;
+    context->mNotificationManager->Register(context->CurrObject, "MoveLeft");
+    context->mNotificationManager->Register(context->CurrObject, "MoveRight");
+}
 
 void Player::Update(CMPUT350::GameContext* context) {}
 
@@ -120,4 +124,19 @@ const std::vector<CMPUT350::Shape> &Player::GetShapes() {
     // TODO: remove this code. filler was added so compiler doesn't complain about warning
     static std::vector<CMPUT350::Shape> someVec{};
     return someVec;
+}
+
+/**
+ * @brief Handles notifications from moving left and right.
+ */
+void Player::ReceiveNotification(const std::string &key) {
+    // repurposed code from HandleKeyEvent
+    if (key == "MoveLeft") {
+        mLocation.x -= 15.f;
+    }
+
+    if (key == "MoveRight") {
+        mLocation.x += 15.f;
+    }
+
 }
