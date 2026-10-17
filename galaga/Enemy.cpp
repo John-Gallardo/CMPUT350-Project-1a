@@ -15,6 +15,7 @@ Enemy::Enemy(CMPUT350::Point2D loc)
  */
 void Enemy::Initialize(CMPUT350::GameContext* context) {
     mIsAlive = true;
+    mRotation = 0.0f;
     // using center, radius constructor. radius is arbitrarily chosen
     mEnemyRender = CMPUT350::Rect(mLocation, 20.0f);
     mBoundingBox = CMPUT350::Rect(mLocation, 20.0f);
@@ -90,17 +91,17 @@ const CMPUT350::Rect& Enemy::GetBounds() {
 }
 
 /**
- * TODO:
+ * @brief Returns this enemy's location
  */
 CMPUT350::Point2D Enemy::GetLocation() const {
-    return {};
+    return mLocation;
 }
 
 /**
- * TODO:
+ * @brief Returns this enemy's rotation
  */
 float Enemy::GetRotation() const {
-    return 0.0f;
+    return mRotation;
 }
 
 /**

@@ -19,7 +19,6 @@ public:
     // Graphics Object Functions
     void RenderBackground(CMPUT350::GameContext* context) override;
     void RenderForeground(CMPUT350::GameContext* context) override;
-    // TODO: implement these!! new function overrides
     CMPUT350::Point2D GetLocation() const override;
     float GetRotation() const override;
 
@@ -34,6 +33,7 @@ private:
     CMPUT350::Rect mEnemyRender{};  // enemy is rendered as a square
     CMPUT350::Rect mBoundingBox{};
     std::vector<CMPUT350::Shape> mShapes{};
+    float mRotation{};
 };
 
 

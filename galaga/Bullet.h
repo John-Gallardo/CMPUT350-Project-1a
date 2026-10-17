@@ -20,7 +20,6 @@ public:
     // Graphics Object Functions
     void RenderBackground(CMPUT350::GameContext* context) override;
     void RenderForeground(CMPUT350::GameContext* context) override;
-    // TODO: finish GetLocation and GetRotation
     CMPUT350::Point2D GetLocation() const override;
     float GetRotation() const override;
 
@@ -35,6 +34,7 @@ private:
     CMPUT350::Point2D mPrevLocation{};
     CMPUT350::Point2D mHeading{};
     std::vector<CMPUT350::Shape> mShapes{};
+    float mRotation{};
     bool mPlayer{};
     bool mIsAlive{};
 };

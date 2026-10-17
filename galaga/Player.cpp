@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "Bullet.h"
+#include "EngineView.h"
 
 /**
  * @brief Constructor, only sets player location to loc
@@ -11,9 +12,18 @@
 Player::Player(CMPUT350::Point2D loc) : mLocation{loc} {}
 
 /**
- * @brief Initializes other member variables of the player
+ * @brief Initializes member variables of player & registers in the engine
  */
-void Player::Initialize(CMPUT350::GameContext* context) { mIsAlive = true; }
+void Player::Initialize(CMPUT350::GameContext* context) {
+    mIsAlive = true;
+    mRotation = 0.0f;
+    context->mNotificationManager->Register(context->CurrObject, "MoveLeft");
+    context->mNotificationManager->Register(context->CurrObject, "MoveRight");
+    context->mNotificationManager->Register(context->CurrObject, "Fire");
+
+    mEngineView = context->mEngineView;
+    mSelf = context->CurrObject;
+}
 
 void Player::Update(CMPUT350::GameContext* context) {}
 
@@ -107,10 +117,10 @@ CMPUT350::Point2D Player::GetLocation() const {
 }
 
 /**
- * TODO:
+ * Returns Player's rotation
  */
 float Player::GetRotation() const {
-    return 0.0f;
+    return mRotation;
 }
 
 /**
@@ -120,4 +130,37 @@ const std::vector<CMPUT350::Shape> &Player::GetShapes() {
     // TODO: remove this code. filler was added so compiler doesn't complain about warning
     static std::vector<CMPUT350::Shape> someVec{};
     return someVec;
+}
+
+/**
+ * @brief Handles notifications from moving left and right.
+ */
+void Player::ReceiveNotification(const std::string &key) {
+    // repurposed code from HandleKeyEvent
+    if (key == "MoveLeft") {
+        mLocation.x -= 15.f;
+    }
+
+    if (key == "MoveRight") {
+        mLocation.x += 15.f;
+    }
+
+    if (key == "Fire") {
+        // remove expired bullets from the vector
+        mBullets.erase(
+            std::remove_if(mBullets.begin(), mBullets.end(),
+                           [](const std::weak_ptr<Bullet>& bullet) { return bullet.expired(); }),
+            mBullets.end());
+
+        // check if we can shoot a bullet
+        if (mBullets.size() >= 2) {
+            return;
+        }
+
+        auto bullet =
+            std::make_shared<Bullet>(CMPUT350::Point2D(mLocation.x, mLocation.y - mHalfSize),
+                                     CMPUT350::Point2D(0.f, -15.f), true);
+        mBullets.push_back(bullet);
+        mEngineView->AddGameObject(bullet);
+    }
 }

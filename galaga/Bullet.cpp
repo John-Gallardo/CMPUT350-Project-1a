@@ -26,6 +26,7 @@ bool Bullet::IsPlayerBullet()
 void Bullet::Initialize(CMPUT350::GameContext* context)
 {
     mIsAlive = true;
+    mRotation = 0.0f;
     mPrevLocation = mLocation;  // technically not correct but IDK what else to initialize it to
 }
 
@@ -136,10 +137,10 @@ CMPUT350::Point2D Bullet::GetLocation() const {
 }
 
 /**
- * TODO: finish
+ * Returns this bullet's rotation
  */
 float Bullet::GetRotation() const {
-    return 0.0f;
+    return mRotation;
 }
 
 /**
