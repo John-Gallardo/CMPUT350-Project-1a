@@ -168,15 +168,17 @@ void GameEngine::Run() {
             graphicsObjects.push_back(graphicsObject);
         }
 
-        // TODO: "Get offsets and rotations from objects before they are asked to render to the screen"
-
         // 6. Render background
         for (const auto& graphicsObject : graphicsObjects) {
+            mScreenContext.SetContextOffset(graphicsObject->GetLocation());
+            mScreenContext.SetContextRotation(graphicsObject->GetRotation());
             graphicsObject->RenderBackground(&mGameContext);
         }
 
         // 7. Render foreground
         for (const auto& graphicsObject : graphicsObjects) {
+            mScreenContext.SetContextOffset(graphicsObject->GetLocation());
+            mScreenContext.SetContextRotation(graphicsObject->GetRotation());
             graphicsObject->RenderForeground(&mGameContext);
         }
 
