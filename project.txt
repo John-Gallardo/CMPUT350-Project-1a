@@ -1,0 +1,30 @@
+CMPUT 350 Project 1b
+
+Game
+Galaga is started by adding one Galaga object to the engine. That object creates the stars,
+the player, and the enemies.
+
+State flow
+Waiting: press 5 to add a credit, press 1 to spend one credit and start.
+Startup: the level number is shown and the player ship appears.
+Waves: five waves of eight ships fly in on cubic Bezier paths.
+Gameplay: ships in formation sway together. Two ships are chosen to dive, shoot, and return.
+         Clearing the formation starts the next level at Startup.
+         A death waits until flying ships are home, then the player respawns.
+         At 0 lives the state becomes GameOver, then returns to Waiting.
+
+Design
+Drawing and collision shapes are in local space around (0, 0). The engine adds each object's
+location and rotation. Bullets collide as the line traveled since the previous frame, and a hit
+is drawn as a circle on the contact point. Enemy 1 and Enemy 2 have 1 health. Enemy 3 has 2
+health and changes color after the first hit. A ship that is flying scores more than the same
+ship sitting in formation. Movement and firing use notification strings, so A and Left both
+send MoveLeft.
+
+Team
+Avishek Dangol: GameEngine collision and key notifications, DrawContext transforms, and Bullet
+               travel-line collision, parent lifetime, and the hit circle.
+John Gallardo: Galaga state machine and coins, Enemy paths, formation, firing, and scoring,
+               and Player movement and firing from notification strings.
+
+AI use
